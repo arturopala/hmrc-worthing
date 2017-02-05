@@ -22,6 +22,11 @@ class ShopSpec extends WordSpecLike with Matchers {
                 shop.checkout(List(Orange, Apple)) shouldBe Success(BigDecimal("0.85"))
                 shop.checkout(List(Orange, Orange)) shouldBe Success(BigDecimal("0.50"))
             }
+            "fail when item not found in pricelist" in {
+                shop.checkout(List("Foo")) should matchPattern { case Failure(_) => }
+                shop.checkout(List("Foo", Apple)) should matchPattern { case Failure(_) => }
+                shop.checkout(List("Foo", Apple, Orange)) should matchPattern { case Failure(_) => }
+            }
             "apply special offer" which {
                 "buy one, get one free on Apples" in {
                     shop.checkout(List(Apple, Apple)) shouldBe Success(BigDecimal("0.60"))
