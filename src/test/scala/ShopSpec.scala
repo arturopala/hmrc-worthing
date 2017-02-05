@@ -22,9 +22,24 @@ class ShopSpec extends WordSpecLike with Matchers {
                 shop.checkout(List(Apple, Apple)) shouldBe Success(BigDecimal("1.20"))
                 shop.checkout(List(Orange, Apple)) shouldBe Success(BigDecimal("0.85"))
                 shop.checkout(List(Orange, Orange)) shouldBe Success(BigDecimal("0.50"))
-                shop.checkout(List(Orange, Apple, Orange)) shouldBe Success(BigDecimal("1.10"))
-                shop.checkout(List(Orange, Apple, Orange, Apple)) shouldBe Success(BigDecimal("1.70"))
-                shop.checkout(List(Orange, Apple, Orange, Apple, Apple, Apple)) shouldBe Success(BigDecimal("2.90"))
+            }
+            "apply special offer" which {
+                "buy one, get one free on Apples" in {
+                    shop.checkout(List(Apple, Apple)) shouldBe Success(BigDecimal("0.60"))
+                    shop.checkout(List(Apple, Apple, Apple)) shouldBe Success(BigDecimal("1.20"))
+                    shop.checkout(List(Apple, Apple, Apple, Apple)) shouldBe Success(BigDecimal("1.20"))
+                    shop.checkout(List(Orange, Apple, Orange)) shouldBe Success(BigDecimal("1.10"))
+                    shop.checkout(List(Orange, Apple, Orange, Apple)) shouldBe Success(BigDecimal("1.10"))
+                    shop.checkout(List(Orange, Apple, Orange, Apple, Apple, Apple)) shouldBe Success(BigDecimal("1.70"))
+                }
+                "buy 3 for the price of 2 on Oranges" in {
+                    shop.checkout(List(Orange, Orange)) shouldBe Success(BigDecimal("0.50"))
+                    shop.checkout(List(Orange, Orange, Orange)) shouldBe Success(BigDecimal("0.50"))
+                    shop.checkout(List(Orange, Orange, Orange, Orange)) shouldBe Success(BigDecimal("0.75"))
+                    shop.checkout(List(Orange, Orange, Orange, Orange, Orange)) shouldBe Success(BigDecimal("1.00"))
+                    shop.checkout(List(Orange, Orange, Orange, Orange, Orange, Orange)) shouldBe Success(BigDecimal("1.00"))
+                    shop.checkout(List(Orange, Apple, Orange, Orange)) shouldBe Success(BigDecimal("1.10"))
+                }
             }
         }
     }
