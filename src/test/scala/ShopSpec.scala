@@ -19,7 +19,6 @@ class ShopSpec extends WordSpecLike with Matchers {
                 shop.checkout(List(Apple)) shouldBe Success(BigDecimal("0.60"))
                 shop.checkout(List(Orange)) shouldBe Success(BigDecimal("0.25"))
                 shop.checkout(List(Apple, Orange)) shouldBe Success(BigDecimal("0.85"))
-                shop.checkout(List(Apple, Apple)) shouldBe Success(BigDecimal("1.20"))
                 shop.checkout(List(Orange, Apple)) shouldBe Success(BigDecimal("0.85"))
                 shop.checkout(List(Orange, Orange)) shouldBe Success(BigDecimal("0.50"))
             }
@@ -38,6 +37,7 @@ class ShopSpec extends WordSpecLike with Matchers {
                     shop.checkout(List(Orange, Orange, Orange, Orange)) shouldBe Success(BigDecimal("0.75"))
                     shop.checkout(List(Orange, Orange, Orange, Orange, Orange)) shouldBe Success(BigDecimal("1.00"))
                     shop.checkout(List(Orange, Orange, Orange, Orange, Orange, Orange)) shouldBe Success(BigDecimal("1.00"))
+                    shop.checkout(List(Orange, Orange, Orange, Orange, Orange, Orange, Orange)) shouldBe Success(BigDecimal("1.25"))
                     shop.checkout(List(Orange, Apple, Orange, Orange)) shouldBe Success(BigDecimal("1.10"))
                 }
             }
